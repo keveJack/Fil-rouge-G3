@@ -28,45 +28,31 @@ class Rang
         return $this->_intitule;
     }
 
-}
-
-
-
-public function getUtilisateur():UtilisateurCollection
+    public function getUtilisateur(): UtilisateurCollection
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_utilisateurCollection ;
+        return $this->_utilisateurCollection;
     }
     public function addUtlitisateur(Utilisateur $utilisateur)
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_signalementCollection[]=$signalement ;
+        return $this->_signalementCollection[] = $signalement;
     }
 
-    public function getUtilisateur():UtilisateurCollection
+    public static function create(Rang $rang): int
     {
-        // si vide alors faire requete pour les récupérer
-        return $this->_utilisateurCollection ;
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Rang (intitule, numUtilisateur, numZone) values (:intitule, :numUtilisateur, :numZone );");
+        $statement->execute(['intitule' => $rang->getIntitule()]);
+        return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
-    public function addUtlitisateur(Utilisateur $utilisateur)
+    public static function read(int $id): ?Rang
     {
-        // si vide alors faire requete pour les récupérer
-        return $this->_iutilisateurCollection[]=$utilisateur ;
+        $statement = Database::getInstance()->getConnexion()->prepare('select * from Rang where id =:id;');
+        $statement->execute(['id' => $id]);
+        if ($row = $statement->fetch()) {
+            $rang = new Rang(id: $row['id'], intitule: $row['intitule']);
+            return $rang;
+        }
+        return null;
     }
-public static function create(Rang $rang): int
-{
-    $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Rang (intitule, numUtilisateur, numZone) values (:intitule, :numUtilisateur, :numZone );");
-    $statement->execute(['intitule' => $rang->getIntitule()]);
-    return (int) Database::getInstance()->getConnexion()->lastInsertId();
-}
-public static function read(int $id):?Rang
-{
-    $statement=Database::getInstance()->getConnexion()->prepare('select * from Rang where id =:id;');
-    $statement->execute(['id'=>$id]);
-    if ($row = $statement->fetch())
-    {
-        $rang = new Rang(id:$row['id'],intitule:$row['intitule']);
-        return $rang;
-    }
-    return null;
 }
