@@ -27,11 +27,6 @@ class Rang
     {
         return $this->_intitule;
     }
-
-}
-
-
-
 public function getUtilisateur():UtilisateurCollection
     {
         // si vide alors faire requete pour les récupérer
@@ -40,19 +35,9 @@ public function getUtilisateur():UtilisateurCollection
     public function addUtlitisateur(Utilisateur $utilisateur)
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_signalementCollection[]=$signalement ;
+        return $this->_utilisateurCollection[]=$utilisateur ;
     }
 
-    public function getUtilisateur():UtilisateurCollection
-    {
-        // si vide alors faire requete pour les récupérer
-        return $this->_utilisateurCollection ;
-    }
-    public function addUtlitisateur(Utilisateur $utilisateur)
-    {
-        // si vide alors faire requete pour les récupérer
-        return $this->_iutilisateurCollection[]=$utilisateur ;
-    }
 public static function create(Rang $rang): int
 {
     $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Rang (intitule, numUtilisateur, numZone) values (:intitule, :numUtilisateur, :numZone );");
@@ -69,4 +54,5 @@ public static function read(int $id):?Rang
         return $rang;
     }
     return null;
+}
 }

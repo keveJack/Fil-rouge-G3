@@ -35,12 +35,16 @@ class Zone
         return $this->_lieu;
     }
     
-    
-    
+    public function getTypeZone():TypeZone
+    {
+        // si vide alors faire requete pour les récupérer
+        return $this->_typeZone;
+    }
+
     public static function create(Zone $zone): int
     {
         $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (intitule,lieu,numType_Zone) values (:intitule,:lieu,:numType_Zone);");
-        $statement->execute(['intitule' => $zone->getIntitule(),'lieu'=>$zone->getIntitule(),'numType_Zone'=>$zone->getTypeZone()->getId()]);
+        $statement->execute(['intitule' => $zone->getIntitule(),'lieu'=>$zone->getIntitule(),'numType_Zone'=>$zone->getTypeZone()->getById()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
     public static function read(int $id):?TypeZone

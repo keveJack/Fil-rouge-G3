@@ -16,9 +16,9 @@ class Utilisateur
     private EvenementCollection $_evenementCollection;
     private SignalementCollection $_signalementCollectionSignale;
 
-    public function __construct(int $id, string $pseudo, string $email, string $motDePasse,
-        PersonnageCollection $personnageCollection = new PersonnageCollection(), SignalementCollection $signalementCollection,
-        Rang $rang, EvenementCollection $evenementCollection = new EventCollection, SignalementCollection $_signalementCollectionSignale = new SignalementCollection()) {
+    public function __construct( string $pseudo, string $email, string $motDePasse, Rang $rang, int $id=0,
+        PersonnageCollection $personnageCollection = new PersonnageCollection(), SignalementCollection $signalementCollection = new SignalementCollection(),
+        EvenementCollection $evenementCollection = new EventCollection, SignalementCollection $_signalementCollectionSignale = new SignalementCollection()) {
         $this->_id = $id;
         $this->_pseudo = $pseudo;
         $this->_email = $email;
@@ -46,5 +46,30 @@ class Utilisateur
     public function getMotDePasse(): string
     {
         return $this->_motDePasse;
+    }
+
+    public function getPersonnageCollection():PersonnageCollection
+    {
+        // si vide alors faire requete pour les récupérer
+        return $this->_personnageCollection;
+    }
+    public static function create(Utilisateur $utilisateur): int
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (pseudo,email,id,motDePasse,numUtilisateur) values (:pseudo,:email,:id,:motDePasse,:numUtilisateur);");
+        $statement->execute(['pseudo' => $utilisateur->getPseudo(),'email'=>$utilisateur->getEmail(),'motDePasse'=>$utilisateur->getMotDePasse(),'id'=>$utilisateur->getById()]);
+        return (int) Database::getInstance()->getConnexion()->lastInsertId();
+    }
+    public static function read(int $id):?Utilisateur
+    {
+        $statement=Database::getInstance()->getConnexion()->prepare('select * from Utilisateur where id =:id;');
+        $statement->execute(['id'=>$id]);
+        if ($row = $statement->fetch())
+        
+    {
+        $rang = Rang::read($row['numRang']);
+        return new Utilisateur(pseudo:$row['pseudo'],email:$row['email'],id:$row['id'],motDePasse:$row['motDePasse'],rang:$rang);
+    }
+           
+        return null;
     }
 }
