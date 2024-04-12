@@ -8,7 +8,7 @@ class TypeZone
     private string $_intitule;
     private ZoneCollection $_zoneCollection;
 
-    public function __construct(string $intitule,int $id=0, ZoneCollection $zoneCollection = new ZoneCollection())
+    public function __construct(string $intitule, int $id = 0, ZoneCollection $zoneCollection = new ZoneCollection())
     {
         $this->_id = $id;
         $this->_intitule = $intitule;
@@ -31,14 +31,15 @@ class TypeZone
         $statement->execute(['intitule' => $typeZone->getIntitule()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
-    public static function read(int $id):?TypeZone
+    public static function read(int $id): ?TypeZone
     {
-        $statement=Database::getInstance()->getConnexion()->prepare('select * from Type_Zone where id =:id;');
-        $statement->execute(['id'=>$id]);
-        if ($row = $statement->fetch())
-            return new TypeZone(intitule:$row['intitule'],id:$row['id']);
+        $statement = Database::getInstance()->getConnexion()->prepare('select * from Type_Zone where id =:id;');
+        $statement->execute(['id' => $id]);
+        if ($row = $statement->fetch()) {
+            return new TypeZone(intitule: $row['intitule'], id: $row['id']);
+        }
+
         return null;
     }
-
 
 }

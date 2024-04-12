@@ -9,7 +9,7 @@ class Rang
     private ZoneCollection $_zoneCollection;
     private UtilisateurCollection $_utilisateurCollection;
 
-    public function __construct(string $intitule,int $id=0, ZoneCollection $zoneCollection = new ZoneCollection(), UtilisateurCollection $utilisateurCollection = new UtilisateurCollection())
+    public function __construct(string $intitule, int $id = 0, ZoneCollection $zoneCollection = new ZoneCollection(), UtilisateurCollection $utilisateurCollection = new UtilisateurCollection())
     {
         $this->_id = $id;
         $this->_intitule = $intitule;

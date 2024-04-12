@@ -11,7 +11,7 @@ class Signalement
     private UtilisateurCollection $_utilisateursSignales;
     private TypeSignalement $_typeSignalement;
 
-    public function __construct(int $id=0, string $intitule, \DateTime $date, Utilisateur $utilisateur, UtilisateurCollection $utilisateursSignales = new UtilisateurCollection(), TypeSignalement $typeSignalement)
+    public function __construct(int $id = 0, string $intitule, \DateTime $date, Utilisateur $utilisateur, UtilisateurCollection $utilisateursSignales = new UtilisateurCollection(), TypeSignalement $typeSignalement)
     {
         $this->_id = $id;
         $this->_intitule = $intitule;
@@ -32,40 +32,37 @@ class Signalement
     {
         return $this->_date;
     }
-    
-    public function getUtilisateur():Utilisateur
+
+    public function getUtilisateur(): Utilisateur
     {
         // si vide alors faire requete pour les récupérer
         return $this->_utilisateur;
     }
-    public function getUtilisateurs():UtilisateurCollection
+    public function getUtilisateurs(): UtilisateurCollection
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_utilisateursSignales ;
+        return $this->_utilisateursSignales;
     }
     public function addUtilisateur(Utilisateur $utilisateur)
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_utilisateursSignales[]=$utilisateur ;
+        return $this->_utilisateursSignales[] = $utilisateur;
     }
-
-
 
     public static function create(Signalement $Signalement): int
     {
         $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (intitule,date,id,numUtilisateur,numType_Signalement) values (:intitule,:date,:id,:numUtilisateur,:numType_Signalement);");
-        $statement->execute(['intitule' => $Signalement->getIntitule(),'date'=>$Signalement->getDate(),'id'=>$Signalement->getById()]);
+        $statement->execute(['intitule' => $Signalement->getIntitule(), 'date' => $Signalement->getDate(), 'id' => $Signalement->getById()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
-    public static function read(int $id):?Signalement
+    public static function read(int $id): ?Signalement
     {
-        $statement=Database::getInstance()->getConnexion()->prepare('select * from Signalement where id =:id;');
-        $statement->execute(['id'=>$id]);
-        if ($row = $statement->fetch())
-        {
+        $statement = Database::getInstance()->getConnexion()->prepare('select * from Signalement where id =:id;');
+        $statement->execute(['id' => $id]);
+        if ($row = $statement->fetch()) {
             $typeSignalement = TypeSignalement::read($row['numType_Signalement']);
             $utilisateur = Utilisateur::read($row['numUtilisateur']);
-            $Signalement = new Signalement(intitule:$row['intitule'],date:$row['date'],id:$row['id'],typeSignalement:$typeSignalement,utilisateur:$utilisateur);
+            $Signalement = new Signalement(intitule: $row['intitule'], date: $row['date'], id: $row['id'], typeSignalement: $typeSignalement, utilisateur: $utilisateur);
             return $Signalement;
         }
         return null;

@@ -8,7 +8,7 @@ class TypeSignalement
     private string $_intitule;
     private SignalementCollection $_signalementCollection;
 
-    public function __construct(int $id=0, string $intitule, SignalementCollection $signalementCollection = new SignalementCollection())
+    public function __construct(int $id = 0, string $intitule, SignalementCollection $signalementCollection = new SignalementCollection())
     {
         $this->_id = $id;
         $this->_intitule = $intitule;
@@ -24,15 +24,15 @@ class TypeSignalement
     {
         return $this->_intitule;
     }
-    public function getSignalements():SignalementCollection
+    public function getSignalements(): SignalementCollection
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_signalementCollection ;
+        return $this->_signalementCollection;
     }
     public function addSignalement(Signalement $signalement)
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_signalementCollection[]=$signalement ;
+        return $this->_signalementCollection[] = $signalement;
     }
     public static function create(TypeSignalement $typeSignalement): int
     {
@@ -40,16 +40,15 @@ class TypeSignalement
         $statement->execute(['intitule' => $typeSignalement->getIntitule()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
-    public static function read(int $id):?TypeSignalement
+    public static function read(int $id): ?TypeSignalement
     {
-        $statement=Database::getInstance()->getConnexion()->prepare('select * from TypeSignalement where id =:id;');
-        $statement->execute(['id'=>$id]);
-        if ($row = $statement->fetch())
-        {
-            $typeSignalement = new TypeSignalement(id:$row['id'],intitule:$row['intitule']);
+        $statement = Database::getInstance()->getConnexion()->prepare('select * from TypeSignalement where id =:id;');
+        $statement->execute(['id' => $id]);
+        if ($row = $statement->fetch()) {
+            $typeSignalement = new TypeSignalement(id: $row['id'], intitule: $row['intitule']);
             return $typeSignalement;
         }
         return null;
     }
- 
+
 }

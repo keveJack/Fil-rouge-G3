@@ -15,8 +15,8 @@ class Evenement
     private PersonnageCollection $_personnageCollection;
     private Utilisateur $_utilisateur;
 
-    public function __construct(int $id=0, string $intitule, \DateTime $date, int $niveau_min, int $niveau_max, Zone $zone,
-        PersonnageCollection $personnageCollection = new PersonnageCollection(), Utilisateur $utilisateur) {
+    public function __construct(string $intitule, \DateTime $date, int $niveau_min, int $niveau_max, Zone $zone,Utilisateur $utilisateur,
+        PersonnageCollection $personnageCollection = new PersonnageCollection(),int $id = 0 ) {
         $this->_id = $id;
         $this->_intitule = $intitule;
         $this->_date = $date;
@@ -62,4 +62,38 @@ class Evenement
     {
         return $this->_niveau_max;
     }
+
+    public function getPersonnageCollection(): PersonnageCollection
+    {
+        // si vide alors faire requete pour les récupérer
+        return $this->_personnageCollection;
+    }
+    public function getZone(): Zone
+    {
+        // si vide alors faire requete pour les récupérer
+        return $this->_zone;
+    }
+
+    public static function create(Evenement $evenement): int
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Personnage (intitule,date,id,niveau_min,niveau_max,numUtilisateur,numZone)
+         values (:intitule,:date,:id,:niveau_min,:niveau_max,:numUtilisateur,:numZone);");
+        $statement->execute(['intitule' => $evenement->getIntitule()], ['date' => $evenement->getDate()], ['niveau_min' => $evenement->getNiveauMin()], ['niveau_max' => $evenement->getNiveauMax()], ['numZone' => $evenement->getZone()->getById()])
+        ;
+        return (int) Database::getInstance()->getConnexion()->lastInsertId();
+    }
+    public static function read(int $id): ?Evenement
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('select * from Evenement where id =:id;');
+        $statement->execute(['id' => $id]);
+        if ($row = $statement->fetch()) {
+            $utilisateur = Utilisateur::read($row['numUtilisateur']);
+            $zone = Zone::read($row['numZone']);
+            $personnage = new Evenement(id: $row['id'], niveau_max: $row['niveau_max'], niveau_min: $row['niveau_min'], intitule: $row['intitule'], date: $row['date'], utilisateur: $utilisateur, zone: $zone);
+            return $personnage;
+        }
+        return null;
+
+    }
+
 }

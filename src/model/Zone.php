@@ -11,7 +11,7 @@ class Zone
     private TypeZone $_typeZone;
     private RangCollection $_rangCollection;
 
-    public function __construct(string $intitule, string $lieu,TypeZone $typeZone,int $id=0,
+    public function __construct(string $intitule, string $lieu, TypeZone $typeZone, int $id = 0,
         EvenementCollection $evenementCollection = new EvenementCollection(), RangCollection $rangCollection = new RangCollection()) {
         $this->_id = $id;
         $this->_intitule = $intitule;
@@ -34,8 +34,8 @@ class Zone
     {
         return $this->_lieu;
     }
-    
-    public function getTypeZone():TypeZone
+
+    public function getTypeZone(): TypeZone
     {
         // si vide alors faire requete pour les récupérer
         return $this->_typeZone;
@@ -44,20 +44,18 @@ class Zone
     public static function create(Zone $zone): int
     {
         $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (intitule,lieu,numType_Zone) values (:intitule,:lieu,:numType_Zone);");
-        $statement->execute(['intitule' => $zone->getIntitule(),'lieu'=>$zone->getIntitule(),'numType_Zone'=>$zone->getTypeZone()->getById()]);
+        $statement->execute(['intitule' => $zone->getIntitule(), 'lieu' => $zone->getIntitule(), 'numType_Zone' => $zone->getTypeZone()->getById()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
-    public static function read(int $id):?TypeZone
+    public static function read(int $id): ?Zone
     {
-        $statement=Database::getInstance()->getConnexion()->prepare('select * from Zone where id =:id;');
-        $statement->execute(['id'=>$id]);
-        if ($row = $statement->fetch())
-        
-    {
-        $typeZone = TypeZone::read($row['numType_Zone']);
-        return new Zone(intitule:$row['intitule'],id:$row['id'],lieu:$row['lieu'],typeZone:$typeZone);
-    }
-           
+        $statement = Database::getInstance()->getConnexion()->prepare('select * from Zone where id =:id;');
+        $statement->execute(['id' => $id]);
+        if ($row = $statement->fetch()) {
+            $typeZone = TypeZone::read($row['numType_Zone']);
+            return new Zone(intitule: $row['intitule'], id: $row['id'], lieu: $row['lieu'], typeZone: $typeZone);
+        }
+
         return null;
     }
 }
