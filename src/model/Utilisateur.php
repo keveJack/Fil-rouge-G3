@@ -18,7 +18,7 @@ class Utilisateur
 
     public function __construct( string $pseudo, string $email, string $motDePasse, Rang $rang, int $id=0,
         PersonnageCollection $personnageCollection = new PersonnageCollection(), SignalementCollection $signalementCollection = new SignalementCollection(),
-        EvenementCollection $evenementCollection = new EventCollection, SignalementCollection $_signalementCollectionSignale = new SignalementCollection()) {
+        EvenementCollection $evenementCollection = new EventCollection, SignalementCollection $_signalementCollectionSignale = new SignalementCollection()){
         $this->_id = $id;
         $this->_pseudo = $pseudo;
         $this->_email = $email;
