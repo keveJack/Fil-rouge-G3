@@ -44,7 +44,7 @@ class Personnage
         return $this->_evenementCollection[] = $evenement;
     }
 
-    public function getUtlisateur(): Utilisateur
+    public function getUtilisateur(): Utilisateur
     {
         // si vide alors faire requete pour les récupérer
         return $this->_utilisateur;
@@ -75,5 +75,19 @@ class Personnage
         return null;
 
     }
+
+
+    public static function update(Personnage $personnage)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE personnage set niveau=:niveau,equipement=:equipement,numUtilisateur=:numUtilisateur WHERE id =:id');
+        $statement->execute(['niveau'=>$personnage->getNiveau(),'equipement'=>$personnage->getEquipement(), 'numUtilisateur'=>$personnage->getUtilisateur()->getById(),'id'=>$personnage->getById()]);
+    }
+    public static function delete(Personnage $personnage)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM personnage WHERE id =:id');
+        $statement->execute(['id'=>$personnage->getById()]);
+    }
+
+
 
 }
