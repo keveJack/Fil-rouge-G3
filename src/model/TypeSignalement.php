@@ -20,6 +20,7 @@ class TypeSignalement
         return $this->_id;
     }
 
+
     public function getIntitule(): string
     {
         return $this->_intitule;
@@ -38,7 +39,8 @@ class TypeSignalement
     {
         $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO TypeSignalement (intitule) values (:intitule);");
         $statement->execute(['intitule' => $typeSignalement->getIntitule()]);
-        return (int) Database::getInstance()->getConnexion()->lastInsertId();
+        return  (int) Database::getInstance()->getConnexion()->lastInsertId();
+
     }
     public static function read(int $id): ?TypeSignalement
     {
@@ -49,6 +51,17 @@ class TypeSignalement
             return $typeSignalement;
         }
         return null;
+    }
+
+    public static function update(TypeSignalement $typeSignalement)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE TypeSignalement set intitule=:intitule WHERE id =:id');
+        $statement->execute(['intitule' => $typeSignalement->getIntitule(),'id' => $typeSignalement->getById()]);
+    }
+    public static function delete(TypeSignalement $typeSignalement)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM TypeSignalement WHERE id =:id');
+        $statement->execute(['id' => $typeSignalement->getById()]);
     }
 
 }

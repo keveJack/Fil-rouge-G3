@@ -44,7 +44,7 @@ class Zone
     public static function create(Zone $zone): int
     {
         $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (intitule,lieu,numType_Zone) values (:intitule,:lieu,:numType_Zone);");
-        $statement->execute(['intitule' => $zone->getIntitule(), 'lieu' => $zone->getIntitule(), 'numType_Zone' => $zone->getTypeZone()->getById()]);
+        $statement->execute(['intitule' => $zone->getIntitule(), 'lieu' => $zone->getLieu(), 'numType_Zone' => $zone->getTypeZone()->getById()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
     public static function read(int $id): ?Zone
@@ -57,5 +57,15 @@ class Zone
         }
 
         return null;
+    }
+    public static function update(Zone $zone)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE Zone set intitule=:intitule, numType_Zone =:numType_Zone, lieu=:lieu WHERE id =:id');
+        $statement->execute(['intitule' => $zone->getIntitule(), 'lieu' => $zone->getLieu(), 'id' => $zone->getById(), 'numType_Zone' => $zone->getTypeZone()->getById()]);
+    }
+    public static function delete(Zone $zone)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM Zone WHERE id =:id');
+        $statement->execute(['id' => $zone->getById()]);
     }
 }

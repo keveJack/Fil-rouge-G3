@@ -67,4 +67,14 @@ class Signalement
         }
         return null;
     }
+    public static function update(Signalement $Signalement)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE Signalement set intitule=:intitule,date=:date,numUtilisateur=:numUtilisateur,numType_Signalement=:numType_Signalement WHERE id =:id');
+        $statement->execute(['intitule' => $Signalement->getIntitule(),'id' => $Signalement->getById(),'date' => $Signalement->getDate(),'numUtilisateur' => $Signalement->getUtilisateur()->getById(),'numType_Signalement' => $Signalement->getUtilisateur()->getById()]);
+    }
+    public static function delete(Signalement $Signalement)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM Signalement WHERE id =:id');
+        $statement->execute(['id' => $Signalement->getById()]);
+    }
 }

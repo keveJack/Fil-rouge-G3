@@ -53,9 +53,13 @@ class Utilisateur
         // si vide alors faire requete pour les récupérer
         return $this->_personnageCollection;
     }
+    public function getRang(): Rang
+    {
+        return $this->_rang;
+    }
     public static function create(Utilisateur $utilisateur): int
     {
-        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (pseudo,email,id,motDePasse,numUtilisateur) values (:pseudo,:email,:id,:motDePasse,:numUtilisateur);");
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (pseudo,email,id,motDePasse,numRang) values (:pseudo,:email,:id,:motDePasse,:numRang);");
         $statement->execute(['pseudo' => $utilisateur->getPseudo(), 'email' => $utilisateur->getEmail(), 'motDePasse' => $utilisateur->getMotDePasse(), 'id' => $utilisateur->getById()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
@@ -69,5 +73,15 @@ class Utilisateur
         }
 
         return null;
+    }
+    public static function update(Utilisateur $utilisateur)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE Utilisateur set pseudo=:pseudo,email=:email,motDePasse=:motDePasse,numRang=:numRang WHERE id =:id');
+        $statement->execute(['pseudo' => $$utilisateur->getPseudo(), 'email' => $utilisateur->getEmail(), 'id' => $utilisateur->getById(), 'motDePasse' => $utilisateur->getMotDePasse(), 'numRang' => $utilisateur->getRang()->getById()]);
+    }
+    public static function delete(Utilisateur $utilisateur)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM Utilisateur WHERE id =:id');
+        $statement->execute(['id' => $utilisateur->getById()]);
     }
 }
