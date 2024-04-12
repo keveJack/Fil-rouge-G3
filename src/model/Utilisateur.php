@@ -16,15 +16,9 @@ class Utilisateur
     private EvenementCollection $_evenementCollection;
     private SignalementCollection $_signalementCollectionSignale;
 
-<<<<<<< HEAD
     public function __construct( string $pseudo, string $email, string $motDePasse, Rang $rang, int $id=0,
         PersonnageCollection $personnageCollection = new PersonnageCollection(), SignalementCollection $signalementCollection = new SignalementCollection(),
         EvenementCollection $evenementCollection = new EventCollection, SignalementCollection $_signalementCollectionSignale = new SignalementCollection()) {
-=======
-    public function __construct( string $pseudo, string $email, string $motDePasse,Rang $rang,
-        PersonnageCollection $personnageCollection = new PersonnageCollection(), SignalementCollection $signalementCollection = new SignalementCollection(),
-         EvenementCollection $evenementCollection = new EvenementCollection(), SignalementCollection $_signalementCollectionSignale = new SignalementCollection(),int $id=0) {
->>>>>>> f1aa8c5cd47b60814c6edb8c451e3500a71c98e5
         $this->_id = $id;
         $this->_pseudo = $pseudo;
         $this->_email = $email;
