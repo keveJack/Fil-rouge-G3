@@ -56,7 +56,7 @@ class Utilisateur
     public static function create(Utilisateur $utilisateur): int
     {
         $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (pseudo,email,id,motDePasse,numUtilisateur) values (:pseudo,:email,:id,:motDePasse,:numUtilisateur);");
-        $statement->execute(['pseudo' => $utilisateur->getPseudo(),'email'=>$utilisateur->getEmail(),'motDePasse'=>$utilisateur->getMotDePasse(),'id'=>$utilisateur->getById()]);
+        $statement->execute(['pseudo' => $utilisateur->getPseudo(),'email'=>$utilisateur->getEmail(),'motDePasse'=>$utilisateur->getMotDePasse(),'id'=>$utilisateur->getById(),]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
     public static function read(int $id):?Utilisateur

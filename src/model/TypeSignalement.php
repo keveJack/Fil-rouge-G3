@@ -8,7 +8,7 @@ class TypeSignalement
     private string $_intitule;
     private SignalementCollection $_signalementCollection;
 
-    public function __construct(int $id, string $intitule, SignalementCollection $signalementCollection = new SignalementCollection())
+    public function __construct(int $id=0, string $intitule, SignalementCollection $signalementCollection = new SignalementCollection())
     {
         $this->_id = $id;
         $this->_intitule = $intitule;
