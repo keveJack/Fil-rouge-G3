@@ -9,7 +9,7 @@ class Rang
     private ZoneCollection $_zoneCollection;
     private UtilisateurCollection $_utilisateurCollection;
 
-    public function __construct(int $id, string $intitule, ZoneCollection $zoneCollection = new ZoneCollection(), UtilisateurCollection $utilisateurCollection = new UtilisateurCollection())
+    public function __construct(string $intitule,int $id=0, ZoneCollection $zoneCollection = new ZoneCollection(), UtilisateurCollection $utilisateurCollection = new UtilisateurCollection())
     {
         $this->_id = $id;
         $this->_intitule = $intitule;
@@ -27,32 +27,43 @@ class Rang
     {
         return $this->_intitule;
     }
-public function getUtilisateur():UtilisateurCollection
+
+    public function getUtilisateur(): UtilisateurCollection
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_utilisateurCollection ;
+        return $this->_utilisateurCollection;
     }
-    public function addUtlitisateur(Utilisateur $utilisateur)
+    public function addUtlitisateur(UtilisateurCollection $utilisateur)
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_utilisateurCollection[]=$utilisateur ;
+        return $this->_utilisateurCollection[] = $utilisateur;
     }
 
-public static function create(Rang $rang): int
-{
-    $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Rang (intitule, numUtilisateur, numZone) values (:intitule, :numUtilisateur, :numZone );");
-    $statement->execute(['intitule' => $rang->getIntitule()]);
-    return (int) Database::getInstance()->getConnexion()->lastInsertId();
-}
-public static function read(int $id):?Rang
-{
-    $statement=Database::getInstance()->getConnexion()->prepare('select * from Rang where id =:id;');
-    $statement->execute(['id'=>$id]);
-    if ($row = $statement->fetch())
+    public function getZone(): ZoneCollection
     {
-        $rang = new Rang(id:$row['id'],intitule:$row['intitule']);
-        return $rang;
+        // si vide alors faire requete pour les récupérer
+        return $this->_zoneCollection;
     }
-    return null;
-}
+    public function addZone(ZoneCollection $zone)
+    {
+        // si vide alors faire requete pour les récupérer
+        return $this->_zoneCollection[] = $zone;
+    }
+
+    public static function create(Rang $rang): int
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Rang (intitule) values (:intitule);");
+        $statement->execute(['intitule' => $rang->getIntitule()]);
+        return (int) Database::getInstance()->getConnexion()->lastInsertId();
+    }
+    public static function read(int $id): ?Rang
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('select * from Rang where id =:id;');
+        $statement->execute(['id' => $id]);
+        if ($row = $statement->fetch()) {
+            $rang = new Rang(id: $row['id'], intitule: $row['intitule']);
+            return $rang;
+        }
+        return null;
+    }
 }
