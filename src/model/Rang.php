@@ -9,7 +9,7 @@ class Rang
     private ZoneCollection $_zoneCollection;
     private UtilisateurCollection $_utilisateurCollection;
 
-    public function __construct(int $id, string $intitule, ZoneCollection $zoneCollection = new ZoneCollection(), UtilisateurCollection $utilisateurCollection = new UtilisateurCollection())
+    public function __construct(string $intitule,int $id=0, ZoneCollection $zoneCollection = new ZoneCollection(), UtilisateurCollection $utilisateurCollection = new UtilisateurCollection())
     {
         $this->_id = $id;
         $this->_intitule = $intitule;
@@ -33,15 +33,26 @@ class Rang
         // si vide alors faire requete pour les récupérer
         return $this->_utilisateurCollection;
     }
-    public function addUtlitisateur(Utilisateur $utilisateur)
+    public function addUtlitisateur(UtilisateurCollection $utilisateur)
     {
         // si vide alors faire requete pour les récupérer
-        return $this->_signalementCollection[] = $signalement;
+        return $this->_utilisateurCollection[] = $utilisateur;
+    }
+
+    public function getZone(): ZoneCollection
+    {
+        // si vide alors faire requete pour les récupérer
+        return $this->_zoneCollection;
+    }
+    public function addZone(ZoneCollection $zone)
+    {
+        // si vide alors faire requete pour les récupérer
+        return $this->_zoneCollection[] = $zone;
     }
 
     public static function create(Rang $rang): int
     {
-        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Rang (intitule, numUtilisateur, numZone) values (:intitule, :numUtilisateur, :numZone );");
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Rang (intitule) values (:intitule);");
         $statement->execute(['intitule' => $rang->getIntitule()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }

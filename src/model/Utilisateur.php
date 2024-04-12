@@ -16,9 +16,9 @@ class Utilisateur
     private EvenementCollection $_evenementCollection;
     private SignalementCollection $_signalementCollectionSignale;
 
-    public function __construct(int $id, string $pseudo, string $email, string $motDePasse,
-        PersonnageCollection $personnageCollection = new PersonnageCollection(), SignalementCollection $signalementCollection,
-        Rang $rang, EvenementCollection $evenementCollection = new EventCollection, SignalementCollection $_signalementCollectionSignale = new SignalementCollection()) {
+    public function __construct( string $pseudo, string $email, string $motDePasse,Rang $rang,
+        PersonnageCollection $personnageCollection = new PersonnageCollection(), SignalementCollection $signalementCollection = new SignalementCollection(),
+         EvenementCollection $evenementCollection = new EvenementCollection(), SignalementCollection $_signalementCollectionSignale = new SignalementCollection(),int $id=0) {
         $this->_id = $id;
         $this->_pseudo = $pseudo;
         $this->_email = $email;
@@ -47,4 +47,6 @@ class Utilisateur
     {
         return $this->_motDePasse;
     }
+
+   
 }
