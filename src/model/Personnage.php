@@ -39,7 +39,7 @@ class Personnage
         // si vide alors faire requete pour les récupérer
         return $this->_evenementCollection;
     }
-    public function addEvenementCollection(EvenementCollection $evenementCollection)
+    public function addEvenementCollection(Evenement $evenement)
     {
         // si vide alors faire requete pour les récupérer
         return $this->_evenementCollection[] = $evenement;
@@ -60,8 +60,8 @@ class Personnage
     {
         $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Personnage (niveau,equipement, numEvenement, numUtilisateur)
          values (:niveau, :equipement, :numEvenement, :numUtilisateur );");
-        $statement->execute(['niveau' => $niveau->getNiveau()],
-        ['equipement' => $equipement->getEquipement()]);
+        $statement->execute(['niveau' => $personnage->getNiveau()],
+        ['equipement' => $personnage->getEquipement()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
     public static function read(int $id): ?Personnage
@@ -69,13 +69,14 @@ class Personnage
         $statement = Database::getInstance()->getConnexion()->prepare('select * from Personnage where id =:id;');
         $statement->execute(['id' => $id]);
         if ($row = $statement->fetch()) {
-            $personnage = new Personnage(id: $row['id'], niveau: $row['niveau'], equipement: $row['equipement']);
+            $utilisateur = Utilisateur::read($row['numUtilisateur']);
+            $personnage = new Personnage(id: $row['id'], niveau: $row['niveau'], equipement: $row['equipement'],utilisateur:$utilisateur);
             return $personnage;
         }
         return null;
 
     }
-    
+
 }
 
 
