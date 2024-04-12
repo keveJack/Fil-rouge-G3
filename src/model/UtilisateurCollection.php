@@ -11,4 +11,5 @@ class UtilisateurCollection extends \ArrayObject
             throw new \InvalidArgumentException("Must be a utilisateur");
         }
     }
+    
 }
