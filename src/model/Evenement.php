@@ -13,6 +13,7 @@ class Evenement
     private int $_niveau_max;
     private Zone $_zone;
     private PersonnageCollection $_personnageCollection;
+    // utilisateur qui crée et gère l'événement
     private Utilisateur $_utilisateur;
 
     public function __construct(string $intitule, \DateTime $date, int $niveau_min, int $niveau_max, Zone $zone,Utilisateur $utilisateur,
@@ -32,7 +33,7 @@ class Evenement
     }
     public function getIntitule(): string
     {
-        return $this->_intitule;
+        return $this->_intitule; 
     }
     public function getDate(): \DateTime
     {
@@ -62,7 +63,10 @@ class Evenement
     {
         return $this->_niveau_max;
     }
-
+    public function getUtilisateur():Utilisateur
+    {
+        return $this->_utilisateur;
+    }
     public function getPersonnageCollection(): PersonnageCollection
     {
         // si vide alors faire requete pour les récupérer
@@ -94,6 +98,17 @@ class Evenement
         }
         return null;
 
+    }
+
+    public static function update(Evenement $evenement)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE evenement set intitule=:intitule,date=:date,niveau_min=:niveau_min,niveau_max=:niveau_max,numUtilisateur=:numUtilisateur,numZone=:numZone WHERE id =:id');
+        $statement->execute(['intitule'=>$evenement->getIntitule(),'numZone'=>$evenement->getZone()->getById(),'numUtilisateur'=>$evenement->getUtilisateur()->getById(),'id'=>$evenement->getById(), 'date'=>$evenement->getDate(),'niveau_min'=>$evenement->getNiveauMin(), 'niveau_max'=>$evenement->getNiveauMax()]);
+    }
+    public static function delete(Evenement $evenement)
+    {
+        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM evenement WHERE id =:id');
+        $statement->execute(['id'=>$evenement->getById()]);
     }
 
 }
