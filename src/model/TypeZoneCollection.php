@@ -10,5 +10,6 @@ class TypeZoneCollection extends \ArrayObject
         if (!($newval instanceof TypeZone)) {
             throw new \InvalidArgumentException("Must be a type_zone");
         }
+        parent::offsetSet($index, $newval);
     }
 }

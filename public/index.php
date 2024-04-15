@@ -1,32 +1,29 @@
 <?php
 declare (strict_types = 1);
-use app\FilRougeG3\model\Rang;
-use app\FilRougeG3\model\Utilisateur;
-use app\FilRougeG3\model\Evenement;
-use app\FilRougeG3\model\Zone;
-use app\FilRougeG3\model\TypeZone;
+use app\FilRougeG3\controller\ApiController;
+use app\FilRougeG3\model\Personnage;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
-echo "SALUT";
-$typeZone = new TypeZone(intitule:'Raid');
-TypeZone::create($typeZone);
-$typeZone = TypeZOne::read(4);
-var_dump($typeZone);
-$zone = new Zone(intitule:'Zone de fou',lieu:'dans le donjon trop ouf',typeZone:$typeZone);
-var_dump($zone);
-Zone::create($zone);
-$rang = new Rang('newbie');
-$id = Rang::create($rang );
-$rangDB = Rang::read($id);
-$utilisateur = new Utilisateur("JojoDu9010","joho@gmail.com",'super passwxord',$rangDB,0);
-$id = Utilisateur::create($utilisateur);
-$utilisateurDB = Utilisateur::read($id);
-$evenement = new Evenement(intitule:'Yolo à la ferme',date:new DateTime('now'),niveau_min:5,niveau_max:50,zone:$zone,utilisateur:$utilisateurDB);
 
-
-$rangDB = Rang::read(1);
-//var_dump($rang);
-// $utilisateur = new Utilisateur(pseudo: 'Ben', email: 'douakona@gmail.com', rang: $rangDB, motDePasse: 'password');
-// Utilisateur::create($utilisateur);
-// $zone = new Zone(intitule:'Zone de fou',lieu:'dans le donjon trop ouf',typeZone:$typeZone);
-// var_dump($rang);
+$route = explode('/', $_SERVER['REQUEST_URI']);
+if (isset($route[1]) && $route[1] == 'api') 
+{
+    if (isset($route[2]))
+    {
+        switch ($route[2]) {
+            case 'evenement':
+                ApiController::evenement();
+                break;
+                case 'personnage':
+                ApiController::personnage();
+                break;
+                case 'zone':
+                ApiController::zone();
+                    break;
+            default:
+                ApiController::evenement();
+                break;
+        }
+       
+    }
+}

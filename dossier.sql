@@ -26,8 +26,8 @@ alter table Personnage add equipement varchar (255);
 create table Evenement (id int primary key not null auto_increment);
 alter table Evenement add intitule varchar (255);
 alter table Evenement add date_Evenement DateTime;
-alter table Prerequis add niveau_max INT;
-alter table Prerequis add niveau_min INT;
+alter table Evenement add niveau_max INT;
+alter table Evenement add niveau_min INT;
 
 create table Rang(id int primary key not null auto_increment);
 alter table Rang add intitule varchar (255);

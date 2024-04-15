@@ -15,6 +15,7 @@ class ComposerStaticInit1a0f7ca79d94ace9319c184d112bb7e1
         'a' => 
         array (
             'app\\FilRougeG3\\model\\' => 21,
+            'app\\FilRougeG3\\controller\\' => 26,
         ),
         'P' => 
         array (
@@ -30,6 +31,10 @@ class ComposerStaticInit1a0f7ca79d94ace9319c184d112bb7e1
         'app\\FilRougeG3\\model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/model',
+        ),
+        'app\\FilRougeG3\\controller\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/controller',
         ),
         'PhpParser\\' => 
         array (

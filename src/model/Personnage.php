@@ -1,8 +1,9 @@
 <?php
 declare (strict_types = 1);
 namespace app\FilRougeG3\model;
+use JsonSerializable;
 
-class Personnage
+class Personnage implements JsonSerializable
 {
     private int $_id;
     private int $_niveau;
@@ -88,6 +89,10 @@ class Personnage
         $statement->execute(['id'=>$personnage->getById()]);
     }
 
-
+    public function jsonSerialize(): mixed
+    {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 
 }

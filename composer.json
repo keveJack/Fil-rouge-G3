@@ -2,7 +2,8 @@
     "name": "kevinj/fil-rouge-g3",
     "autoload": {
         "psr-4": {
-            "app\\FilRougeG3\\model\\": "src/model/"
+            "app\\FilRougeG3\\model\\": "src/model/",
+            "app\\FilRougeG3\\controller\\": "src/controller/"
         }
     },
     "authors": [

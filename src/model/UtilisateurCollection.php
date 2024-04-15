@@ -10,6 +10,7 @@ class UtilisateurCollection extends \ArrayObject
         if (!($newval instanceof Utilisateur)) {
             throw new \InvalidArgumentException("Must be a utilisateur");
         }
+        parent::offsetSet($index, $newval);
     }
     
 }

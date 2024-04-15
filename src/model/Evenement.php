@@ -3,8 +3,9 @@ declare (strict_types = 1);
 namespace app\FilRougeG3\model;
 
 use DateTime;
+use JsonSerializable;
 
-class Evenement
+class Evenement implements JsonSerializable
 {
     private int $_id;
     private string $_intitule;
@@ -93,7 +94,7 @@ class Evenement
         if ($row = $statement->fetch()) {
             $utilisateur = Utilisateur::read($row['numUtilisateur']);
             $zone = Zone::read($row['numZone']);
-            $evenement = new Evenement(id: $row['id'], niveau_max: $row['niveau_max'], niveau_min: $row['niveau_min'], intitule: $row['intitule'], date: $row['date'], utilisateur: $utilisateur, zone: $zone);
+            $evenement = new Evenement(id: $row['id'], niveau_max: $row['niveau_max'], niveau_min: $row['niveau_min'], intitule: $row['intitule'], date: $row['date_Evenement'], utilisateur: $utilisateur, zone: $zone);
             return $evenement;
         }
         return null;
@@ -110,5 +111,12 @@ class Evenement
         $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM evenement WHERE id =:id');
         $statement->execute(['id'=>$evenement->getById()]);
     }
+    public function jsonSerialize(): mixed
+    {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
+
+
 
 }

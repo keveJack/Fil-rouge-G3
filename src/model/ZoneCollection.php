@@ -2,6 +2,8 @@
 declare (strict_types = 1);
 namespace app\FilRougeG3\model;
 
+use JsonSerializable;
+
 class ZoneCollection extends \ArrayObject
 
 {
@@ -10,12 +12,13 @@ class ZoneCollection extends \ArrayObject
         if (!($newval instanceof Zone)) {
             throw new \InvalidArgumentException("Must be a zone");
         }
+        parent::offsetSet($index, $newval);
     }
     public static function getZonesByType(TypeZone $typeZone):ZoneCollection
     {
         $liste = new ZoneCollection();
 
-        $statement = Database::getInstance()->getConnexion()->prepare('SELECT * FROM zone where numTypeZone = :numTypeZone');
+        $statement = Database::getInstance()->getConnexion()->prepare('SELECT * FROM Zone where numTypeZone = :numTypeZone');
         $statement->execute(['numTypeZone' =>$typeZone->getById() ]);
         while($row =$statement->fetch())
         {
@@ -27,7 +30,7 @@ class ZoneCollection extends \ArrayObject
     {
         $liste = new ZoneCollection();
 
-        $statement = Database::getInstance()->getConnexion()->prepare('SELECT * FROM zone where numTypeZone = :numTypeZone');
+        $statement = Database::getInstance()->getConnexion()->prepare('SELECT * FROM Zone where numTypeZone = :numTypeZone');
         $statement->execute(['numRang' =>$rang->getById() ]);
         while($row =$statement->fetch())
         {
@@ -36,4 +39,19 @@ class ZoneCollection extends \ArrayObject
         }
         return $liste;
     }
+    public static function getZones():ZoneCollection
+    {
+        $liste = new ZoneCollection();
+
+        $statement = Database::getInstance()->getConnexion()->prepare('SELECT * FROM `Zone` ;');
+        $statement->execute();
+        while($row =$statement->fetch())
+        {
+            $typeZone = TypeZone::read($row['numType_Zone']);
+            $zone = new Zone(intitule: $row['intitule'], id: $row['id'], lieu: $row['lieu'], typeZone:$typeZone );
+            $liste[]= $zone; 
+        }
+        return $liste;
+    }
+
 }

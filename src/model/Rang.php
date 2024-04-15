@@ -78,5 +78,6 @@ class Rang
         $statement->execute(['id'=>$rang->getById()]);
     }
 
+    
 
 }

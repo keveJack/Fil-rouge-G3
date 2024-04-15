@@ -1,8 +1,8 @@
 <?php
 declare (strict_types = 1);
 namespace app\FilRougeG3\model;
-
-class Zone
+use JsonSerializable;
+class Zone implements JsonSerializable
 {
     private int $_id;
     private string $_intitule;
@@ -68,4 +68,11 @@ class Zone
         $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM Zone WHERE id =:id');
         $statement->execute(['id' => $zone->getById()]);
     }
+    public function jsonSerialize(): mixed
+    {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
+
+
 }
