@@ -69,12 +69,12 @@ class Rang
 
     public static function update(Rang $rang)
     {
-        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE rang set intitule=:intitule WHERE id =:id');
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE Rang set intitule=:intitule WHERE id =:id');
         $statement->execute(['intitule'=>$rang->getIntitule(),'id'=>$rang->getById(),]);
     }
     public static function delete(Rang $rang)
     {
-        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM rang WHERE id =:id');
+        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM Rang WHERE id =:id');
         $statement->execute(['id'=>$rang->getById()]);
     }
 

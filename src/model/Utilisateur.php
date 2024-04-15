@@ -18,7 +18,7 @@ class Utilisateur
 
     public function __construct(string $pseudo, string $email, string $motDePasse, Rang $rang, int $id = 0,
         PersonnageCollection $personnageCollection = new PersonnageCollection(), SignalementCollection $signalementCollection = new SignalementCollection(),
-        EvenementCollection $evenementCollection = new EventCollection, SignalementCollection $_signalementCollectionSignale = new SignalementCollection()) {
+        EvenementCollection $evenementCollection = new EvenementCollection(), SignalementCollection $_signalementCollectionSignale = new SignalementCollection()) {
         $this->_id = $id;
         $this->_pseudo = $pseudo;
         $this->_email = $email;
@@ -59,8 +59,8 @@ class Utilisateur
     }
     public static function create(Utilisateur $utilisateur): int
     {
-        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (pseudo,email,id,motDePasse,numRang) values (:pseudo,:email,:id,:motDePasse,:numRang);");
-        $statement->execute(['pseudo' => $utilisateur->getPseudo(), 'email' => $utilisateur->getEmail(), 'motDePasse' => $utilisateur->getMotDePasse(), 'id' => $utilisateur->getById()]);
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Utilisateur (pseudo,mail,mot_de_passe,numRang) values (:pseudo,:email,:motDePasse,:numRang);");
+        $statement->execute(['pseudo' => $utilisateur->getPseudo(), 'email' => $utilisateur->getEmail(), 'motDePasse' => $utilisateur->getMotDePasse(), 'numRang' => $utilisateur->getRang()->getById()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
     public static function read(int $id): ?Utilisateur
@@ -69,14 +69,14 @@ class Utilisateur
         $statement->execute(['id' => $id]);
         if ($row = $statement->fetch()) {
             $rang = Rang::read($row['numRang']);
-            return new Utilisateur(pseudo: $row['pseudo'], email: $row['email'], id: $row['id'], motDePasse: $row['motDePasse'], rang: $rang);
+            return new Utilisateur(pseudo: $row['pseudo'], email: $row['mail'], id: $row['id'], motDePasse: $row['mot_de_passe'], rang: $rang);
         }
 
         return null;
     }
     public static function update(Utilisateur $utilisateur)
     {
-        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE Utilisateur set pseudo=:pseudo,email=:email,motDePasse=:motDePasse,numRang=:numRang WHERE id =:id');
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE Utilisateur set pseudo=:pseudo,mail=:email,mot_de_passe=:motDePasse,numRang=:numRang WHERE id =:id');
         $statement->execute(['pseudo' => $$utilisateur->getPseudo(), 'email' => $utilisateur->getEmail(), 'id' => $utilisateur->getById(), 'motDePasse' => $utilisateur->getMotDePasse(), 'numRang' => $utilisateur->getRang()->getById()]);
     }
     public static function delete(Utilisateur $utilisateur)

@@ -12,3 +12,4 @@ class EvenementCollection extends \ArrayObject
         }
     }
 }
+

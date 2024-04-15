@@ -80,7 +80,7 @@ class Evenement
 
     public static function create(Evenement $evenement): int
     {
-        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Personnage (intitule,date,id,niveau_min,niveau_max,numUtilisateur,numZone)
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Evenement (intitule,date,id,niveau_min,niveau_max,numUtilisateur,numZone)
          values (:intitule,:date,:id,:niveau_min,:niveau_max,:numUtilisateur,:numZone);");
         $statement->execute(['intitule' => $evenement->getIntitule()], ['date' => $evenement->getDate()], ['niveau_min' => $evenement->getNiveauMin()], ['niveau_max' => $evenement->getNiveauMax()], ['numZone' => $evenement->getZone()->getById()])
         ;
@@ -93,8 +93,8 @@ class Evenement
         if ($row = $statement->fetch()) {
             $utilisateur = Utilisateur::read($row['numUtilisateur']);
             $zone = Zone::read($row['numZone']);
-            $personnage = new Evenement(id: $row['id'], niveau_max: $row['niveau_max'], niveau_min: $row['niveau_min'], intitule: $row['intitule'], date: $row['date'], utilisateur: $utilisateur, zone: $zone);
-            return $personnage;
+            $evenement = new Evenement(id: $row['id'], niveau_max: $row['niveau_max'], niveau_min: $row['niveau_min'], intitule: $row['intitule'], date: $row['date'], utilisateur: $utilisateur, zone: $zone);
+            return $evenement;
         }
         return null;
 

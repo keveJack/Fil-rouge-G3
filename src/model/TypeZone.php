@@ -28,7 +28,7 @@ class TypeZone
     public static function create(TypeZone $typeZone): int
     {
         $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Type_Zone (intitule) values (:intitule);");
-        $statement->execute(['intitule' => $typeZone->getIntitule(),'id' => $typeZone->getById()]);
+        $statement->execute(['intitule' => $typeZone->getIntitule()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }
     public static function read(int $id): ?TypeZone
@@ -43,12 +43,12 @@ class TypeZone
     }
     public static function update(TypeZone $typeZone)
     {
-        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE TypeZone set intitule=:intitule WHERE id =:id');
+        $statement = Database::getInstance()->getConnexion()->prepare('UPDATE Type_Zone set intitule=:intitule WHERE id =:id');
         $statement->execute(['intitule' => $typeZone->getIntitule(),'id' => $typeZone->getById()]);
     }
     public static function delete(TypeZone $typeZone)
     {
-        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM TypeZone WHERE id =:id');
+        $statement = Database::getInstance()->getConnexion()->prepare('DELETE FROM Type_Zone WHERE id =:id');
         $statement->execute(['id' => $typeZone->getById()]);
     }
 

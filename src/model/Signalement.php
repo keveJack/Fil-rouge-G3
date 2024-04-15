@@ -51,7 +51,7 @@ class Signalement
 
     public static function create(Signalement $Signalement): int
     {
-        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Zone (intitule,date,id,numUtilisateur,numType_Signalement) values (:intitule,:date,:id,:numUtilisateur,:numType_Signalement);");
+        $statement = Database::getInstance()->getConnexion()->prepare("INSERT INTO Signalement (intitule,date,id,numUtilisateur,numType_Signalement) values (:intitule,:date,:id,:numUtilisateur,:numType_Signalement);");
         $statement->execute(['intitule' => $Signalement->getIntitule(), 'date' => $Signalement->getDate(), 'id' => $Signalement->getById()]);
         return (int) Database::getInstance()->getConnexion()->lastInsertId();
     }

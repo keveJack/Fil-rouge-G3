@@ -15,11 +15,14 @@ var_dump($typeZone);
 $zone = new Zone(intitule:'Zone de fou',lieu:'dans le donjon trop ouf',typeZone:$typeZone);
 var_dump($zone);
 Zone::create($zone);
-
-$evenement = new Evenement(intitule:'Yolo à la ferme',date:new DateTime('now'),niveau_min:5,niveau_max:50,zone:$zone,utilisateur:$utilisateur);
 $rang = new Rang('newbie');
 $id = Rang::create($rang );
 $rangDB = Rang::read($id);
+$utilisateur = new Utilisateur("JojoDu9010","joho@gmail.com",'super passwxord',$rangDB,0);
+$id = Utilisateur::create($utilisateur);
+$utilisateurDB = Utilisateur::read($id);
+$evenement = new Evenement(intitule:'Yolo à la ferme',date:new DateTime('now'),niveau_min:5,niveau_max:50,zone:$zone,utilisateur:$utilisateurDB);
+
 
 $rangDB = Rang::read(1);
 //var_dump($rang);
