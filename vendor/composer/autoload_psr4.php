@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'app\\FilRougeG3\\router\\' => array($baseDir . '/src/router'),
     'app\\FilRougeG3\\model\\' => array($baseDir . '/src/model'),
     'app\\FilRougeG3\\controller\\' => array($baseDir . '/src/controller'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),

@@ -20,7 +20,7 @@ create table API (id int primary key not null auto_increment);
 alter table API add api_key varchar(255);
 
 create table Personnage (id int primary key not null auto_increment);
-alter table Personnage add niveau varchar (255);
+alter table Personnage add niveau INT;
 alter table Personnage add equipement varchar (255);
 
 create table Evenement (id int primary key not null auto_increment);

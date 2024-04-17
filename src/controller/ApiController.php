@@ -1,33 +1,43 @@
 <?php
 declare (strict_types = 1);
 namespace app\FilRougeG3\controller;
+
 use app\FilRougeG3\model\EvenementCollection;
 use app\FilRougeG3\model\PersonnageCollection;
-use app\FilRougeG3\model\ZoneCollection;
 use app\FilRougeG3\model\RangCollection;
-use app\FilRougeG3\model\Signalement;
-use app\FilRougeG3\model\TypeSignalement;
-use app\FilRougeG3\model\TypeZone;
-use app\FilRougeG3\model\Utilisateur;
-use app\FilRougeG3\model\Zone;
+use app\FilRougeG3\model\SignalementCollection;
+use app\FilRougeG3\model\ZoneCollection;
 
-
-class ApiController
+class ApiController extends BaseController
 {
-    
-    public static function evenement(){
-        header ('Content-Type: application/json; charset=utf-8');
-        $liste = EvenementCollection::lister();
-        echo json_encode($liste);
+    public function index()
+    {
+        $this->addParam('message', "Salut");
+        $this->view('api/index');
     }
-    public static function personnage(){
-        header ('Content-Type: application/json; charset=utf-8');
-        $liste = PersonnageCollection::lister();
-        echo json_encode($liste);
+    public function evenements()
+    {
+        $this->addParam('liste', EvenementCollection::lister());
+        $this->view('api/evenementCollection');
     }
-    public static function zone(){
-        header ('Content-Type: application/json; charset=utf-8');
-        $liste = ZoneCollection::getZones();
-        echo json_encode($liste);
+    public function personnages()
+    {
+        $this->addParam('liste', PersonnageCollection::lister());
+        $this->view('api/personnageCollection');
+    }
+    public function rangs()
+    {
+        $this->addParam('liste', RangCollection::lister());
+        $this->view('api/rangCollection');
+    }
+    public function signalements()
+    {
+        $this->addParam('liste', SignalementCollection::lister());
+        $this->view('api/signalementCollection');
+    }
+    public function zones()
+    {
+        $this->addParam('liste', ZoneCollection::getZones());
+        $this->view('api/zoneCollection');
     }
 }

@@ -14,6 +14,7 @@ class ComposerStaticInit1a0f7ca79d94ace9319c184d112bb7e1
     public static $prefixLengthsPsr4 = array (
         'a' => 
         array (
+            'app\\FilRougeG3\\router\\' => 22,
             'app\\FilRougeG3\\model\\' => 21,
             'app\\FilRougeG3\\controller\\' => 26,
         ),
@@ -28,6 +29,10 @@ class ComposerStaticInit1a0f7ca79d94ace9319c184d112bb7e1
     );
 
     public static $prefixDirsPsr4 = array (
+        'app\\FilRougeG3\\router\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/router',
+        ),
         'app\\FilRougeG3\\model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/model',

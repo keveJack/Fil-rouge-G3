@@ -3,7 +3,8 @@
     "autoload": {
         "psr-4": {
             "app\\FilRougeG3\\model\\": "src/model/",
-            "app\\FilRougeG3\\controller\\": "src/controller/"
+            "app\\FilRougeG3\\controller\\": "src/controller/",
+            "app\\FilRougeG3\\router\\": "src/router/"
         }
     },
     "authors": [

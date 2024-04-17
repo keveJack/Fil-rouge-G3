@@ -11,6 +11,16 @@ class SignalementCollection extends \ArrayObject
             throw new \InvalidArgumentException("Must be a signalement");
         }
     }
-    
+    public static function lister():\ArrayObject{
+        $liste = new \ArrayObject();
+        $statement=Database::getInstance()->getConnexion()->prepare("select * from signalement");
+        $statement->execute();
+        while ($row = $statement->fetch()) {
+            $utilisateur = Utilisateur::read($row['numUtilisateur']);
+            $typeSignalement = TypeSignalement::read($row['numType_Signalement']);
+            $liste[] = new Signalement(id:$row['id'],intitule:$row['intitule'],date:$row['date'],utilisateur:$utilisateur,typeSignalement:$typeSignalement);
+        }
+        return $liste;
+    }
 }
 
