@@ -11,8 +11,7 @@ class Personnage implements JsonSerializable
     private EvenementCollection $_evenementCollection;
     private Utilisateur $_utilisateur;
 
-    public function __construct(int $id, int $niveau, string $equipement, EvenementCollection $evenementCollection = new EvenementCollection(),
-        Utilisateur $utilisateur) {
+    public function __construct( int $niveau, string $equipement, Utilisateur $utilisateur, EvenementCollection $evenementCollection = new EvenementCollection(),int $id=0) {
         $this->_id = $id;
         $this->_niveau = $niveau;
         $this->_equipement = $equipement;
